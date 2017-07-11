@@ -29,6 +29,20 @@ public class NavNode {
         }
     }
 
+    internal bool RemoveNeighbour(NavNode target) {
+        bool removed = false;
+        for (int nodeIndex = 0; nodeIndex < neighbours.Count; nodeIndex++) {
+            NavNode node = neighbours[nodeIndex];
+            if (node == target) {
+                neighbours.Remove(node);
+                distances.RemoveAt(nodeIndex);
+                removed = true;
+                return removed;
+            }
+        }
+        return removed;
+    }
+
     public bool Equals(NavNode obj) {
         return (name == obj.name && 
                 distances == obj.distances &&

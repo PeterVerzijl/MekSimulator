@@ -1,11 +1,13 @@
 fileFormatVersion: 2
 guid: 7f3b50ac9cbbfc442b1a06988e81e331
-timeCreated: 1499539632
+timeCreated: 1499784059
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Male
     21300002: Female
+    21300004: Characters_0
+    21300006: Characters_1
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -75,12 +77,12 @@ TextureImporter:
       name: Male
       rect:
         serializedVersion: 2
-        x: 1
+        x: 4
         y: 16
-        width: 15
+        width: 12
         height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -92,8 +94,34 @@ TextureImporter:
         y: 16
         width: 10
         height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Characters_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 0
+        width: 12
+        height: 16
+      alignment: 9
+      pivot: {x: 0.37, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Characters_1
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 0
+        width: 10
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

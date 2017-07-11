@@ -16,6 +16,9 @@ public class UIBuyButton : MonoBehaviour {
     void Start() {
         SetActive(confirmActive);
 
+        GetComponent<Button>().onClick.AddListener(()=> {
+            SetActive(true);
+        });
         buyButton.onClick.AddListener(()=> {
             houseManager.StartSelectRoomTarget(type);
         });

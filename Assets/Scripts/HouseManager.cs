@@ -21,13 +21,14 @@ public class HouseManager : MonoBehaviour {
     public GameObject loundryroomPrefab;
     public GameObject floorPrefab;
     public GameObject basePrefab;
+
+    Transform roof;
     
-    List<Transform> floorObjects = new List<Transform>();
-    List<Transform> roomObjects = new List<Transform>();
+    List<Transform> floorTransforms = new List<Transform>();
 
 	// Use this for initialization
 	void Start () {
-        Transform roof = transform.Find("Roof");
+        roof = transform.Find("Roof");
         roof.transform.position += Vector3.up * (2 * floors);
 
         int roomsToActivate = rooms;
@@ -41,7 +42,6 @@ public class HouseManager : MonoBehaviour {
             // De-Activate rooms
             foreach (Transform child in floor) {
                 if (child.name.Contains("SlotPoint")) {
-                    roomObjects.Add(child);
                     if (roomsToActivate > 0 ) {
                         roomsToActivate--;
                         AddRoom(child, floor, RoomType.Bedroom);
@@ -51,7 +51,7 @@ public class HouseManager : MonoBehaviour {
 
             
             floor.localPosition = Vector3.up * (2 + i * 2);
-            floorObjects.Add(floor);
+            floorTransforms.Add(floor);
         }
         // TODO: The roof should really be a place where characters 
         // should be able to go to kiss and enjoy the summer.
@@ -63,15 +63,35 @@ public class HouseManager : MonoBehaviour {
 		
 	}
 
+    public void AddFloor() {
+        Transform t = Instantiate(floorPrefab, this.transform).transform;
+        t.position = Vector3.zero + Vector3.up * (2 + 2 * floorTransforms.Count);
+        roof.transform.position += Vector3.up * 2;
+        NavNode roofNode = GetComponent<NavigationNode>().Node;
+        // Now fix the node graphs
+        Transform prevFloor = floorTransforms[floorTransforms.Count];
+        NavNode prevFloorNode = prevFloor.Find("Stairs").GetComponent<NavigationNode>().Node;
+        prevFloorNode.RemoveNeighbour(roofNode);
+        NavNode floorNode = t.Find("Stairs").GetComponent<NavigationNode>().Node;
+        prevFloorNode.AddNeighbour(floorNode);
+        floorNode.AddNeighbour(roofNode);
+        // Add our floor to our list of floors
+        floorTransforms.Add(t);
+    }
+
     public void StartSelectRoomTarget(RoomType type) {
-        GameObject[] targets = GameObject.FindGameObjectsWithTag("RoomSlot");
-        for (int targetIndex = 0; targetIndex < targets.Length; targetIndex++) {
-            Transform target = targets[targetIndex].transform;
-            Transform floor = target.parent;
-            target.GetChild(0).gameObject.SetActive(true);
-            target.GetComponentInChildren<Button>().onClick.AddListener(()=> {
-                AddRoom(target, floor, type);
-            });
+        if (type != RoomType.Floor) {
+            GameObject[] targets = GameObject.FindGameObjectsWithTag("RoomSlot");
+            for (int targetIndex = 0; targetIndex < targets.Length; targetIndex++) {
+                Transform target = targets[targetIndex].transform;
+                Transform floor = target.parent;
+                target.GetChild(0).gameObject.SetActive(true);
+                target.GetComponentInChildren<Button>().onClick.AddListener(()=> {
+                    AddRoom(target, floor, type);
+                });
+            }
+        } else {
+            AddFloor();
         }
     }
 
