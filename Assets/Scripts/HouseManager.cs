@@ -67,12 +67,13 @@ public class HouseManager : MonoBehaviour {
         Transform t = Instantiate(floorPrefab, this.transform).transform;
         t.position = Vector3.zero + Vector3.up * (2 + 2 * floorTransforms.Count);
         roof.transform.position += Vector3.up * 2;
-        NavNode roofNode = GetComponent<NavigationNode>().Node;
+        NavNode roofNode = roof.GetComponent<NavigationNode>().Node;
         // Now fix the node graphs
-        Transform prevFloor = floorTransforms[floorTransforms.Count];
+        Transform prevFloor = floorTransforms[floorTransforms.Count - 1];
         NavNode prevFloorNode = prevFloor.Find("Stairs").GetComponent<NavigationNode>().Node;
         prevFloorNode.RemoveNeighbour(roofNode);
         NavNode floorNode = t.Find("Stairs").GetComponent<NavigationNode>().Node;
+        roofNode.neighbours.Clear();
         prevFloorNode.AddNeighbour(floorNode);
         floorNode.AddNeighbour(roofNode);
         // Add our floor to our list of floors
