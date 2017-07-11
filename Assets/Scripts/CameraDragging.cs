@@ -19,14 +19,18 @@ public class CameraDragging : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+        if (Input.GetMouseButtonDown(0)) {
+            prevMousePos = Input.mousePosition;
+        }
         if (Input.GetMouseButton(0)) {
+            // Check if we are not pressing on something else
             Vector3 mouseDelta = Input.mousePosition - prevMousePos;
             Vector3 newPos = transform.position + Vector3.up * -mouseDelta.y * 
                 scrollSpeed * Time.deltaTime;
             newPos.y = Mathf.Clamp(newPos.y, house.position.y, roof.position.y);
             transform.position = newPos;
-        }
 
-        prevMousePos = Input.mousePosition;
+            prevMousePos = Input.mousePosition;
+        }
 	}
 }
