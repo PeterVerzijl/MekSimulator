@@ -19,7 +19,7 @@ public class ResidentController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown(0)) {
+		/*if (Input.GetMouseButtonDown(0)) {
             // TODO: Make this a lot less ugly than just checking for all distances!
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             // Find closest navpoint
@@ -28,14 +28,7 @@ public class ResidentController : MonoBehaviour {
             NavNode[] path = NavManager.Instance.GetPathToNode(curNode, destNode);
 
             StartCoroutine(MoveAlongPath(path));
-
-            /*Vector3 nodePos = destNode.transform.position;
-            RaycastHit2D hit = Physics2D.Raycast(nodePos, Vector2.down);
-            if (hit.collider != null) {
-                target = hit.point;
-                hasTarget = true;
-            }*/
-        }
+        }*/
 	}
 
     IEnumerator MoveAlongPath(NavNode[] nodes) {

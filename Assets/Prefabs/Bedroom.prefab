@@ -40,8 +40,9 @@ GameObject:
   - component: {fileID: 4608681178022858}
   - component: {fileID: 212836729684441040}
   - component: {fileID: 61570486361736784}
+  - component: {fileID: 114482832544834454}
   m_Layer: 0
-  m_Name: Room
+  m_Name: Bedroom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,6 +154,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   childNodes: []
+--- !u!114 &114482832544834454
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1935119021205124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a961552088fa1540868165641460e5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  childNodes:
+  - {fileID: 4671229881596024}
 --- !u!212 &212597545046589132
 SpriteRenderer:
   m_ObjectHideFlags: 1
