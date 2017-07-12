@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class NavManager : MonoBehaviour {
 
+    /// <summary>
+    /// Singleton for the NavManager class.
+    /// </summary>
     private static NavManager instance;
     public static NavManager Instance {
         get {

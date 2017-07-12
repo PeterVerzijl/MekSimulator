@@ -42,7 +42,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 11
   m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
@@ -54,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
-    serializedVersion: 8
+    serializedVersion: 9
     m_Resolution: 2
     m_BakeResolution: 40
     m_TextureWidth: 1024
@@ -71,7 +71,7 @@ LightmapSettings:
     m_FinalGatherFiltering: 1
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
-    m_MixedBakeMode: 3
+    m_MixedBakeMode: 2
     m_BakeBackend: 0
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 32
@@ -87,7 +87,7 @@ LightmapSettings:
     m_PVRFilteringAtrousNormalSigma: 1
     m_PVRFilteringAtrousPositionSigma: 1
   m_LightingDataAsset: {fileID: 0}
-  m_ShadowMaskMode: 2
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -129,7 +129,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 525, y: -117.5}
+  m_AnchoredPosition: {x: 375, y: -117.5}
   m_SizeDelta: {x: 150, y: 235}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &80547883
@@ -191,6 +191,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &80547886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +318,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 50
+  m_LayoutPriority: 1
 --- !u!114 &103027970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,8 +383,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: -164.3367}
-  m_SizeDelta: {x: 130, y: 61.32659}
+  m_AnchoredPosition: {x: 75, y: -164.32126}
+  m_SizeDelta: {x: 130, y: 61.357468}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &125619803
 GameObject:
@@ -443,6 +445,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1000
+  m_LayoutPriority: 1
 --- !u!114 &125619806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,6 +583,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 50
+  m_LayoutPriority: 1
 --- !u!114 &146310881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,8 +648,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: -164.3936}
-  m_SizeDelta: {x: 130, y: 61.212795}
+  m_AnchoredPosition: {x: 75, y: -164.37772}
+  m_SizeDelta: {x: 130, y: 61.24457}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &150355944
 RectTransform:
@@ -727,6 +731,7 @@ RectTransform:
   - {fileID: 1625717876}
   - {fileID: 2053338470}
   - {fileID: 1713576590}
+  - {fileID: 1282287850}
   m_Father: {fileID: 283748897}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -768,10 +773,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fce574a052ae6849a939afd8b36e2a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dormNameText: {fileID: 1282287852}
+  happynessFormat: '{0}% Happy'
   happynessText: {fileID: 1244538822}
+  feutFormat: '{0} FP'
   feutText: {fileID: 1853597247}
+  studyFormat: '{0} ECTS'
   studyText: {fileID: 1625717877}
+  pandaFormat: '{0} PP'
   pandaText: {fileID: 2053338471}
+  nestorFormat: '{0} NP'
   nestorText: {fileID: 1265786079}
 --- !u!1 &167756837
 GameObject:
@@ -873,6 +884,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &227609295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1098,6 +1110,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1000
+  m_LayoutPriority: 1
 --- !u!114 &277982192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1350,6 +1363,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &297577007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1450,6 +1464,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1000
+  m_LayoutPriority: 1
 --- !u!114 &299013323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1608,6 +1623,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &360331625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1727,6 +1743,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &397154182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1853,6 +1870,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &413577218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1904,8 +1922,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: -83.146355}
-  m_SizeDelta: {x: 130, y: 86.29271}
+  m_AnchoredPosition: {x: 75, y: -83.12103}
+  m_SizeDelta: {x: 130, y: 86.24206}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &424933692
 GameObject:
@@ -2023,6 +2041,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &445816200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2318,6 +2337,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 50
+  m_LayoutPriority: 1
 --- !u!114 &548230461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2382,8 +2402,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: -165.64635}
-  m_SizeDelta: {x: 130, y: 58.707287}
+  m_AnchoredPosition: {x: 75, y: -165.62103}
+  m_SizeDelta: {x: 130, y: 58.757942}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &604983278
 GameObject:
@@ -2443,6 +2463,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1000
+  m_LayoutPriority: 1
 --- !u!114 &604983281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2466,6 +2487,48 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
+--- !u!1 &675654540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 675654542}
+  - component: {fileID: 675654541}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &675654541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 675654540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59862b5a28feabf4daffa84bfcdc861f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dorm:
+    residents: []
+--- !u!4 &675654542
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 675654540}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.94, y: -1.0109999, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &740804637
 GameObject:
   m_ObjectHideFlags: 0
@@ -2504,6 +2567,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &740804639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2555,8 +2619,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: -81.95029}
-  m_SizeDelta: {x: 130, y: 83.90058}
+  m_AnchoredPosition: {x: 75, y: -81.93396}
+  m_SizeDelta: {x: 130, y: 83.86791}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &758397047
 GameObject:
@@ -2648,7 +2712,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 237, y: 235}
+  m_SizeDelta: {x: 280, y: 235}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &764827859
 MonoBehaviour:
@@ -3014,7 +3078,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.684, y: 1}
+  m_AnchorMax: {x: 0.62666667, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3109,6 +3173,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1000
+  m_LayoutPriority: 1
 --- !u!114 &918237421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3252,6 +3317,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1000
+  m_LayoutPriority: 1
 --- !u!114 &1010248477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3410,6 +3476,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1147556465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3472,7 +3539,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 225, y: -117.5}
+  m_AnchoredPosition: {x: 525, y: -117.5}
   m_SizeDelta: {x: 150, y: 235}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1187762979
@@ -3513,6 +3580,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1187762981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3564,8 +3632,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: -81.8367}
-  m_SizeDelta: {x: 130, y: 83.67341}
+  m_AnchoredPosition: {x: 75, y: -81.821266}
+  m_SizeDelta: {x: 130, y: 83.64253}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1244538820
 GameObject:
@@ -3715,6 +3783,100 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1265786077}
+--- !u!1 &1282287849
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1282287850}
+  - component: {fileID: 1282287853}
+  - component: {fileID: 1282287852}
+  - component: {fileID: 1282287851}
+  m_Layer: 5
+  m_Name: Test (Dorm Name)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1282287850
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1282287849}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 165045501}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -30}
+  m_SizeDelta: {x: 0, y: 15}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &1282287851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1282287849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 1
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
+--- !u!114 &1282287852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1282287849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New Text
+--- !u!222 &1282287853
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1282287849}
 --- !u!1 &1289053992
 GameObject:
   m_ObjectHideFlags: 0
@@ -3756,7 +3918,7 @@ MonoBehaviour:
   - {fileID: 360331623}
   confirmLayout: {fileID: 1546440707}
   type: 3
-  buyButton: {fileID: 125619806}
+  buildButton: {fileID: 0}
   houseManager: {fileID: 758397048}
 --- !u!114 &1289053994
 MonoBehaviour:
@@ -3849,6 +4011,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1289053998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3915,6 +4078,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 50
+  m_LayoutPriority: 1
 --- !u!114 &1314201527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3979,8 +4143,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: -164.45029}
-  m_SizeDelta: {x: 130, y: 61.099422}
+  m_AnchoredPosition: {x: 75, y: -164.43396}
+  m_SizeDelta: {x: 130, y: 61.132088}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1354795635
 GameObject:
@@ -4023,7 +4187,7 @@ MonoBehaviour:
   - {fileID: 1916672124}
   confirmLayout: {fileID: 1010248474}
   type: 4
-  buyButton: {fileID: 1996074102}
+  buildButton: {fileID: 0}
   houseManager: {fileID: 758397048}
 --- !u!114 &1354795637
 MonoBehaviour:
@@ -4116,6 +4280,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1354795641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4201,6 +4366,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1358500171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4263,7 +4429,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 375, y: -117.5}
+  m_AnchoredPosition: {x: 225, y: -117.5}
   m_SizeDelta: {x: 150, y: 235}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1405050730
@@ -4382,6 +4548,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1435803513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4529,7 +4696,7 @@ MonoBehaviour:
   - {fileID: 1435803511}
   confirmLayout: {fileID: 604983278}
   type: 1
-  buyButton: {fileID: 1749918281}
+  buildButton: {fileID: 0}
   houseManager: {fileID: 758397048}
 --- !u!114 &1449498740
 MonoBehaviour:
@@ -4622,6 +4789,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1449498744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4708,6 +4876,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1000
+  m_LayoutPriority: 1
 --- !u!114 &1546440710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4774,6 +4943,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1569005825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4825,8 +4995,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: -81.8936}
-  m_SizeDelta: {x: 130, y: 83.7872}
+  m_AnchoredPosition: {x: 75, y: -81.877716}
+  m_SizeDelta: {x: 130, y: 83.755424}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1625717875
 GameObject:
@@ -4973,6 +5143,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!114 &1632423075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5023,6 +5194,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1638908476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5181,6 +5353,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1701433409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5350,6 +5523,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1000
+  m_LayoutPriority: 1
 --- !u!114 &1749918281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5564,7 +5738,7 @@ MonoBehaviour:
   - {fileID: 445816198}
   confirmLayout: {fileID: 2006751728}
   type: 2
-  buyButton: {fileID: 299013323}
+  buildButton: {fileID: 0}
   houseManager: {fileID: 758397048}
 --- !u!114 &1751560938
 MonoBehaviour:
@@ -5657,6 +5831,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1751560942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5761,7 +5936,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 913923919}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.684
+  m_Size: 0.62666667
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6197,6 +6372,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1854646196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6323,6 +6499,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 50
+  m_LayoutPriority: 1
 --- !u!114 &1873188276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6387,8 +6564,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: -164.3367}
-  m_SizeDelta: {x: 130, y: 61.32659}
+  m_AnchoredPosition: {x: 75, y: -164.32126}
+  m_SizeDelta: {x: 130, y: 61.357468}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1879256603
 GameObject:
@@ -6469,6 +6646,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1916672126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6664,6 +6842,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1989769897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6764,6 +6943,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1000
+  m_LayoutPriority: 1
 --- !u!114 &1996074102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7047,6 +7227,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1000
+  m_LayoutPriority: 1
 --- !u!114 &2006751731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7149,6 +7330,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2027361959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7200,8 +7382,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 75, y: -81.8367}
-  m_SizeDelta: {x: 130, y: 83.67341}
+  m_AnchoredPosition: {x: 75, y: -81.821266}
+  m_SizeDelta: {x: 130, y: 83.64253}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2039999432
 GameObject:
@@ -7244,7 +7426,7 @@ MonoBehaviour:
   - {fileID: 1638908474}
   confirmLayout: {fileID: 918237418}
   type: 0
-  buyButton: {fileID: 277982192}
+  buildButton: {fileID: 0}
   houseManager: {fileID: 758397048}
 --- !u!114 &2039999434
 MonoBehaviour:
@@ -7337,6 +7519,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2039999438
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7600,6 +7783,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &2128042166
 MonoBehaviour:
   m_ObjectHideFlags: 0

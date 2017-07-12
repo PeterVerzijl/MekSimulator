@@ -5,14 +5,6 @@ using UnityEngine.UI;
 
 public class HouseManager : MonoBehaviour {
 
-    public enum RoomType {
-        Bedroom,
-        Bathroom,
-        Loundryroom,
-        Floor,
-        Base
-    }
-
     public int rooms = 3;
     public int floors { get { return Mathf.CeilToInt(rooms / 3.0f); } }
 

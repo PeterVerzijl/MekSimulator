@@ -9,8 +9,8 @@ public class UIBuyButton : MonoBehaviour {
     public GameObject[] buyLayout;
     public GameObject confirmLayout;
 
-    public HouseManager.RoomType type;
-    public Button buyButton;
+    public RoomType type;
+    public Button buildButton;
     public HouseManager houseManager;
 
     void Start() {
@@ -19,7 +19,7 @@ public class UIBuyButton : MonoBehaviour {
         GetComponent<Button>().onClick.AddListener(()=> {
             SetActive(true);
         });
-        buyButton.onClick.AddListener(()=> {
+        buildButton.onClick.AddListener(()=> {
             houseManager.StartSelectRoomTarget(type);
         });
     }
