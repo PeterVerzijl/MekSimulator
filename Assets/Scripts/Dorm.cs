@@ -16,16 +16,19 @@ public class Dorm {
     /// <summary>
     /// Dorm name
     /// </summary>
-    public string name { get; private set; }
+    [SerializeField]
+    public string name;
 
     /// <summary>
     /// This contains a list of floors with each three room types.
     /// </summary>
+    [SerializeField]
     public List<RoomType[]> floors;
 
     /// <summary>
     /// List of residents who live in the dorm.
     /// </summary>
+    [SerializeField]
     public List<Resident> residents;
 
     public Dorm(string name) {

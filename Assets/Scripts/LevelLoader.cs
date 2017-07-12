@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.IO;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System;
 
 public class LevelLoader : MonoBehaviour {
 
@@ -15,18 +15,30 @@ public class LevelLoader : MonoBehaviour {
     public GameObject dormNameInputPanel;
     public Button nameSubmit;
 
+    static Regex filenameRegex = new Regex(@"[^a-zA-Z0-9]");
+    static string levelFolder;
+
+    Dorm[] dorms;
+
     // Use this for initialization
     void Start () {
-        // Load stuff
-        Dorm d = CreateDorm("B. S. V. Moedt Ende Kraght");
-        GameObject houseButton = Instantiate(houseButtonPrefab, this.transform);
-        houseButton.GetComponentInChildren<Text>().text =  d.name;    
-        
-        dormButtons = new Button[1];
-        dormButtons[0] = houseButton.GetComponent<Button>();
-        foreach (Button dormButton in dormButtons) {
-            dormButton.onClick.AddListener(()=> {
-                LoadDorm(d);
+        levelFolder = Application.persistentDataPath + @"\dorms\";
+
+        // Load all dorm files
+        if (!Directory.Exists(levelFolder)) {
+            Directory.CreateDirectory(levelFolder);
+        }
+        string[] files = Directory.GetFiles(levelFolder, @"*.lvl", 
+                                            SearchOption.TopDirectoryOnly);
+        int dormIndex = 0;
+        dorms = new Dorm[files.Length];
+        foreach (string filePath in files) {
+            Dorm dorm = JsonUtility.FromJson<Dorm>(File.ReadAllText(filePath));
+            dorms[dormIndex++] = dorm;
+            GameObject houseButton = Instantiate(houseButtonPrefab, this.transform);
+            houseButton.GetComponentInChildren<Text>().text = dorm.name;
+            houseButton.GetComponent<Button>().onClick.AddListener(()=> {
+                LoadDorm(dorm);
             });
         }
 	}
@@ -63,22 +75,48 @@ public class LevelLoader : MonoBehaviour {
         dormNameInputPanel.SetActive(true);
         InputField textField = dormNameInputPanel.GetComponentInChildren<InputField>();
         nameSubmit.onClick.AddListener(()=>{
-            Dorm d = CreateDorm(textField.text);
-            SaveDorm(d);
-            LoadDorm(d);
+            if (!String.IsNullOrEmpty(textField.text)) {
+                Dorm d = CreateAndSaveDorm(textField.text);
+                if (d != null) {
+                    LoadDorm(d);
+                } else {
+                    // TODO(Peter): Make this more robust, name was already taken!!
+                }
+            } else {
+                // TODO(Peter): Make this more robust!
+            }
         });
     }
 
-    private void SaveDorm(Dorm d) {
-        // Save the dorm somewhrere!
+    /// <summary>
+    /// Saves and possibly overwrites the new dorm object.
+    /// </summary>
+    /// <param name="dorm">The dorm to save.</param>
+    public static void SaveDorm(Dorm dorm) {
+        string filename = filenameRegex.Replace(dorm.name, "");
+        string filePath = levelFolder + filename + ".lvl";
+        string serializedObject = JsonUtility.ToJson(dorm);
+        if (File.Exists(filePath)) {
+            File.WriteAllText(filePath, string.Empty);
+        }
+        StreamWriter outputFile = new StreamWriter(filePath);
+        outputFile.Write(serializedObject);
+        outputFile.Close();
     }
 
     /// <summary>
     /// Creates and saves a new dorm based on the given name.
     /// </summary>
     /// <param name="name"></param>
-    public Dorm CreateDorm(string name) {
+    public Dorm CreateAndSaveDorm(string name) {
         Dorm result = new Dorm(name);
+
+        string filename = filenameRegex.Replace(name, "");
+        string filePath = levelFolder + filename + ".lvl";
+        if (!File.Exists(filePath)) {
+            SaveDorm(result);
+        }
+
         return result;
     }
 

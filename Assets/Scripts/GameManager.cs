@@ -38,4 +38,17 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    void OnApplicationPause(bool pause) {
+        // If the applicaiton is paused, we should probably save the game.
+        if (pause) {
+            LevelLoader.SaveDorm(dorm);
+        }
+    }
+
+    void OnApplicationQuit() {
+        // Save the game!!
+        LevelLoader.SaveDorm(dorm);
+        Debug.Log("Application was exited.");   
+    }
 }
