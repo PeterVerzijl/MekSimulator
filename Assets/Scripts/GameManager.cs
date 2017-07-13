@@ -59,6 +59,5 @@ public class GameManager : MonoBehaviour {
     void OnApplicationQuit() {
         // Save the game!!
         LevelLoader.SaveDorm(Dorm);
-        Debug.Log("Application was exited.");   
     }
 }

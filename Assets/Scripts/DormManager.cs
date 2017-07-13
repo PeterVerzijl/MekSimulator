@@ -96,7 +96,7 @@ public class DormManager : MonoBehaviour {
                 });
             }
         } else {
-            InstantiateFloor();
+            AddFloor();
         }
     }
 

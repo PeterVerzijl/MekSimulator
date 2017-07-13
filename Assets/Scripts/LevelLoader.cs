@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -9,7 +10,9 @@ public class LevelLoader : MonoBehaviour {
 
     public GameObject houseButtonPrefab;
     public Button addDormButton;
-    public Button[] dormButtons;
+    public List<Button> dormButtons = new List<Button>();
+
+    public Button deleteDormButton;
 
     [Header("Input Panel")]
     public GameObject dormNameInputPanel;
@@ -34,16 +37,25 @@ public class LevelLoader : MonoBehaviour {
         foreach (string filePath in files) {
             Dorm dorm = JsonUtility.FromJson<Dorm>(File.ReadAllText(filePath));
             dorms[dormIndex++] = dorm;
-            GameObject houseButton = Instantiate(houseButtonPrefab, this.transform);
-            houseButton.GetComponentInChildren<Text>().text = dorm.name;
-            houseButton.GetComponent<Button>().onClick.AddListener(()=> {
-                LoadDorm(dorm);
+            GameObject dormButton = Instantiate(houseButtonPrefab, this.transform);
+            dormButton.GetComponentInChildren<Text>().text = dorm.name;
+            dormButton.GetComponent<Button>().onClick.AddListener(()=> {
+                if (!isInDeletionMode) {
+                    LoadDorm(dorm);
+                } else {
+                    DeleteDorm(dorm, dormButton);
+                }
             });
+            dormButtons.Add(dormButton.GetComponent<Button>());
         }
+
+        // Attach button to function
+        deleteDormButton.onClick.AddListener(ToggleDeletionSequence);
 	}
 
     private void OnEnable() {
         dormNameInputPanel.SetActive(false);
+        isInDeletionMode = false;
     }
 
     // Update is called once per frame
@@ -120,5 +132,36 @@ public class LevelLoader : MonoBehaviour {
         return result;
     }
 
+    private bool isInDeletionMode;
+    private ColorBlock oldColors;
+    public void ToggleDeletionSequence() {
+        isInDeletionMode = !isInDeletionMode;
+        if (isInDeletionMode) {
+            oldColors = dormButtons[0].colors;
+            foreach(Button dormButton in dormButtons) {
+                ColorBlock tempColors = oldColors;
+                tempColors.normalColor = Color.red;
+                dormButton.colors = tempColors;
+            }
+        } else {
+            foreach(Button dormButton in dormButtons) {
+                dormButton.colors = oldColors;
+            }
+        }
+    }
 
+    public void DeleteDorm(Dorm dorm, GameObject button) {
+        // Find file with the same name.
+        string filename = filenameRegex.Replace(dorm.name, "");
+        string filePath = Application.persistentDataPath + 
+            @"/dorms/" + filename + ".lvl";
+        if (File.Exists(filePath)) {
+            File.Delete(filePath);
+            dormButtons.Remove(button.GetComponent<Button>());
+            Destroy(button);
+        } else {
+            // TODO(Peter): This should NEVER EVER happen.
+        }
+        ToggleDeletionSequence();
+    }
 }

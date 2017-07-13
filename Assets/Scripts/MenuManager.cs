@@ -27,6 +27,6 @@ public class MenuManager : MonoBehaviour {
     }
 
     public void Exit() {
-        // Exit based
+        Application.Quit();
     }
 }
