@@ -12,15 +12,25 @@ public class UIBuyButton : MonoBehaviour {
     public RoomType type;
     public DormManager houseManager;
 
+    public static List<UIBuyButton> buyButtons = new List<UIBuyButton>();
+
     void Start() {
+        if (!buyButtons.Contains(this)) {
+            buyButtons.Add(this);
+        }
+
         SetActive(confirmActive);
 
         Button buildButton = transform.Find("Buy Container/Button (Buy)")
             .GetComponent<Button>();
 
         GetComponent<Button>().onClick.AddListener(()=> {
+            foreach(UIBuyButton button in buyButtons) {
+                button.SetActive(false);
+            }
             SetActive(true);
         });
+
         buildButton.onClick.AddListener(()=> {
             houseManager.StartSelectRoomTarget(type);
         });

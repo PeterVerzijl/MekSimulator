@@ -24,41 +24,15 @@ public class DormManager : MonoBehaviour {
         roof = transform.Find("Roof");
 
         foreach (Floor floor in dorm.floors) {
-            Transform floorTransform = AddFloor();
+            Transform floorTransform = InstantiateFloor();
             int childIndex = 0;
             foreach (Transform child in floorTransform) {
                 if (child.name.Contains("SlotPoint")) {
-                    AddRoom(child, floorTransform, floor.rooms[childIndex]);
+                    InstantiateRoom(child, floorTransform, floor.rooms[childIndex]);
                     childIndex++;
                 }
             }
         }
-#if false
-        NavNode curNode = GetComponentInChildren<NavigationNode>().Node;
-		for (int i = 0; i < floors; i++) {
-            Transform floor = Instantiate(floorPrefab, transform).transform;
-            NavNode navNode = floor.Find("Stairs").GetComponent<NavigationNode>().Node;
-            curNode.AddNeighbour(navNode);
-            curNode = navNode;
-
-            // De-Activate rooms
-            foreach (Transform child in floor) {
-                if (child.name.Contains("SlotPoint")) {
-                    if (roomsToActivate > 0 ) {
-                        roomsToActivate--;
-                        AddRoom(child, floor, RoomType.Bedroom);
-                    }
-                }
-            }
-
-            
-            floor.localPosition = Vector3.up * (2 + i * 2);
-            floorTransforms.Add(floor);
-        }
-        // TODO: The roof should really be a place where characters 
-        // should be able to go to kiss and enjoy the summer.
-        curNode.AddNeighbour(roof.GetComponent<NavigationNode>().Node);
-#endif
 	}
 	
 	// Update is called once per frame
@@ -72,14 +46,11 @@ public class DormManager : MonoBehaviour {
     /// reattaches the navigation nodes.
     /// </summary>
     /// <returns>A transform of the created floor object.</returns>
-    public Transform AddFloor() {
+    public Transform InstantiateFloor() {
         Transform result = Instantiate(floorPrefab, this.transform).transform;
         result.position = Vector3.zero + Vector3.up * (2 + 2 * floorTransforms.Count);
         roof.transform.position += Vector3.up * 2;
         NavNode roofNode = roof.GetComponent<NavigationNode>().Node;
-
-        // Add to dorm
-        dorm.floors.Add(new Floor());
 
         // Now fix the node graphs
         Transform prevFloor;
@@ -103,23 +74,46 @@ public class DormManager : MonoBehaviour {
         return result;
     }
 
+    public Transform AddFloor() {
+        // Add to dorm
+        dorm.floors.Add(new Floor());
+        return InstantiateFloor();
+    }
+
+    private RoomType lastSelectedRoomType;
     public void StartSelectRoomTarget(RoomType type) {
         if (type != RoomType.Floor) {
+            lastSelectedRoomType = type;
             GameObject[] targets = GameObject.FindGameObjectsWithTag("RoomSlot");
             for (int targetIndex = 0; targetIndex < targets.Length; targetIndex++) {
                 Transform target = targets[targetIndex].transform;
                 Transform floor = target.parent;
                 target.GetChild(0).gameObject.SetActive(true);
-                target.GetComponentInChildren<Button>().onClick.AddListener(()=> {
-                    AddRoom(target, floor, type);
-                });
+                target.GetComponentInChildren<Button>().onClick.AddListener(
+                    delegate { OnSelectRoomTarget(target); });
             }
         } else {
-            AddFloor();
+            InstantiateFloor();
         }
     }
 
-    public void AddRoom(Transform slot, Transform floor, RoomType type) {
+    private void OnSelectRoomTarget(Transform target) {
+        GameObject[] targets = GameObject.FindGameObjectsWithTag("RoomSlot");
+        AddRoom(target, target.parent, lastSelectedRoomType);
+        // Now turn all targets off.
+        foreach(GameObject go in targets) {
+            Transform t = go.transform;
+            t.GetChild(0).gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// Instantiates a room in the scene.
+    /// </summary>
+    /// <param name="slot">The slot where the room is build</param>
+    /// <param name="floor">The foor on which the room is build</param>
+    /// <param name="type">The type of room</param>
+    public void InstantiateRoom(Transform slot, Transform floor, RoomType type) {
         Transform goTransform = null;
         switch (type) {
             case RoomType.Bedroom: {
@@ -133,8 +127,25 @@ public class DormManager : MonoBehaviour {
             case RoomType.Loundryroom: {
                 goTransform = Instantiate(loundryroomPrefab, floor).transform;
             } break;
+
+            case RoomType.None: return;
         }
 
+        goTransform.position = slot.position;
+        NavNode navNode = floor.Find("Stairs")
+            .GetComponent<NavigationNode>().Node;
+        navNode.AddNeighbour(
+            goTransform.GetComponent<NavigationNode>().Node);
+        Destroy(slot.gameObject);
+    }
+
+    /// <summary>
+    /// Adds a new room to the dorm and instantiates a room object in the slot.
+    /// </summary>
+    /// <param name="slot">The slot where the room is build</param>
+    /// <param name="floor">The foor on which the room is build</param>
+    /// <param name="type">The type of room</param>
+    public void AddRoom(Transform slot, Transform floor, RoomType type) {
         // Find the slot index and floor index such that we can update the dorm obj.
         int slotIndex = 0;
         int floorIndex = floorTransforms.IndexOf(floor);
@@ -148,11 +159,7 @@ public class DormManager : MonoBehaviour {
         }
         dorm.floors[floorIndex].rooms[slotIndex] = type;
 
-        goTransform.position = slot.position;
-        NavNode navNode = floor.Find("Stairs")
-            .GetComponent<NavigationNode>().Node;
-        navNode.AddNeighbour(
-            goTransform.GetComponent<NavigationNode>().Node);
-        Destroy(slot.gameObject);
+        // Now instantiate the room
+        InstantiateRoom(slot, floor, type);
     }
 }

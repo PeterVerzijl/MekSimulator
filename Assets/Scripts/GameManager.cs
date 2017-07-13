@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour {
         }
     }
     
+    [SerializeField]
     private Dorm dorm;
     public Dorm Dorm {
         get {
