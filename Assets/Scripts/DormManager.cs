@@ -1,42 +1,39 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DormManager : MonoBehaviour {
 
+    public Transform dormBase;
+    public Transform roof;
+
+    [Header("Prefabs")]
     public GameObject bedroomPrefab;
     public GameObject bathroomPrefab;
     public GameObject loundryroomPrefab;
     public GameObject floorPrefab;
     public GameObject basePrefab;
 
-    Transform dormBase;
-    Transform roof;
-
     Dorm dorm { get { return GameManager.Instance.Dorm; } }
     
-    List<Transform> floorTransforms = new List<Transform>();
+    List<FloorManager> floorManagers = new List<FloorManager>();
 
 	// Use this for initialization
 	void Start () {
-        dormBase = transform.Find("house_base");
-        roof = transform.Find("Roof");
-
         foreach (Floor floor in dorm.floors) {
             Transform floorTransform = InstantiateFloor();
             int childIndex = 0;
-            foreach (Transform child in floorTransform) {
-                if (child.name.Contains("SlotPoint")) {
-                    InstantiateRoom(child, floorTransform, floor.rooms[childIndex]);
-                    childIndex++;
-                }
+            foreach (Transform slot in floorTransform.GetComponent<FloorManager>().roomSlots) {
+                InstantiateRoom(slot, floorTransform, floor.rooms[childIndex]);
+                childIndex++;
             }
         }
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
@@ -48,19 +45,19 @@ public class DormManager : MonoBehaviour {
     /// <returns>A transform of the created floor object.</returns>
     public Transform InstantiateFloor() {
         Transform result = Instantiate(floorPrefab, this.transform).transform;
-        result.position = Vector3.zero + Vector3.up * (2 + 2 * floorTransforms.Count);
+        FloorManager floorManager = result.GetComponent<FloorManager>();
+        floorManager.Initialize();
+
+        result.position = Vector3.zero + Vector3.up * (2 + 2 * floorManagers.Count);
         roof.transform.position += Vector3.up * 2;
         NavNode roofNode = roof.GetComponent<NavigationNode>().Node;
 
         // Now fix the node graphs
-        Transform prevFloor;
         NavNode prevFloorNode;
-        if (floorTransforms.Count > 0) {
-            prevFloor = floorTransforms[floorTransforms.Count - 1];
-            prevFloorNode = prevFloor.Find("Stairs")
+        if (floorManagers.Count > 0) {
+            prevFloorNode = floorManagers[floorManagers.Count - 1].stairs
                 .GetComponent<NavigationNode>().Node;
         } else {
-            prevFloor = dormBase;
             prevFloorNode = dormBase.Find("Door").GetComponent<NavigationNode>().Node;
         }
         prevFloorNode.RemoveNeighbour(roofNode);
@@ -70,7 +67,7 @@ public class DormManager : MonoBehaviour {
         floorNode.AddNeighbour(roofNode);
         
         // Add our floor to our list of floors
-        floorTransforms.Add(result);
+        floorManagers.Add(floorManager);
         return result;
     }
 
@@ -89,21 +86,17 @@ public class DormManager : MonoBehaviour {
                 Transform target = targets[targetIndex].transform;
                 Transform floor = target.parent;
                 target.GetChild(0).gameObject.SetActive(true);
-                target.GetComponentInChildren<Button>().onClick.AddListener(
-                    delegate { OnSelectRoomTarget(target); });
+
+                target.GetComponentInChildren<Button>().onClick.AddListener(()=>{
+                    GameObject[] targets2 = GameObject.FindGameObjectsWithTag("RoomSlot");
+                    foreach(GameObject go in targets2) {
+                        Transform t = go.transform;
+                        t.GetChild(0).gameObject.SetActive(false);
+                    }
+                });
             }
         } else {
             InstantiateFloor();
-        }
-    }
-
-    private void OnSelectRoomTarget(Transform target) {
-        GameObject[] targets = GameObject.FindGameObjectsWithTag("RoomSlot");
-        AddRoom(target, target.parent, lastSelectedRoomType);
-        // Now turn all targets off.
-        foreach(GameObject go in targets) {
-            Transform t = go.transform;
-            t.GetChild(0).gameObject.SetActive(false);
         }
     }
 
@@ -140,26 +133,17 @@ public class DormManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Adds a new room to the dorm and instantiates a room object in the slot.
+    /// Adds a new room to the dorm and instantiates a room object in the slot. The 
+    /// room type is based on the lastSelectedRoomType
     /// </summary>
-    /// <param name="slot">The slot where the room is build</param>
-    /// <param name="floor">The foor on which the room is build</param>
-    /// <param name="type">The type of room</param>
-    public void AddRoom(Transform slot, Transform floor, RoomType type) {
-        // Find the slot index and floor index such that we can update the dorm obj.
-        int slotIndex = 0;
-        int floorIndex = floorTransforms.IndexOf(floor);
-        foreach(Transform child in floor) {
-            if (child.name.Contains("SlotPoint")) {
-                if (child == slot) {
-                    break;
-                }
-                slotIndex++;
-            }
-        }
-        dorm.floors[floorIndex].rooms[slotIndex] = type;
-
-        // Now instantiate the room
-        InstantiateRoom(slot, floor, type);
+    /// <param name="roomIndex">The index of the slot where the room is build</param>
+    /// <param name="slot">The slot in which the room is build</param>
+    /// <param name="floor">The type of room</param>
+    public void AddRoom(int roomIndex, Transform slot, FloorManager floor) {
+        int floorIndex = floorManagers.IndexOf(floor);
+        dorm.floors[floorIndex].rooms[roomIndex] = lastSelectedRoomType;
+        InstantiateRoom(slot, floor.transform, lastSelectedRoomType);
     }
+
+
 }

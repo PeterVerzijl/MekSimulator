@@ -178,8 +178,9 @@ GameObject:
   - component: {fileID: 61762125661200736}
   - component: {fileID: 61290892129692062}
   - component: {fileID: 61405207504932658}
+  - component: {fileID: 114420606278333366}
   m_Layer: 0
-  m_Name: house_level
+  m_Name: floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -669,6 +670,23 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114420606278333366
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1600947523349222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ecaac51a3fb1134a80cff26315ecc8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stairs: {fileID: 114480918478697156}
+  roomSlots:
+  - {fileID: 4163735524839460}
+  - {fileID: 4358207251495266}
+  - {fileID: 4286388078727666}
+  smallRoomSlot: {fileID: 0}
 --- !u!114 &114423577730924470
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -937,6 +955,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212160686765584888
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -978,6 +997,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!222 &222193138678204650
 CanvasRenderer:
   m_ObjectHideFlags: 1

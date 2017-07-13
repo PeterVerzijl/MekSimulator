@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 61037950697827504}
   - component: {fileID: 50908100015460274}
   m_Layer: 0
-  m_Name: house_base
+  m_Name: dorm_base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -232,6 +232,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212385363103063790
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -273,6 +274,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212884847945011558
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -314,3 +316,4 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
