@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraDragging : MonoBehaviour {
 
-    public Transform house;
+    public Transform dorm;
     public Transform roof;
     public float scrollSpeed = 2.0f;
 
@@ -27,7 +27,7 @@ public class CameraDragging : MonoBehaviour {
             Vector3 mouseDelta = Input.mousePosition - prevMousePos;
             Vector3 newPos = transform.position + Vector3.up * -mouseDelta.y * 
                 scrollSpeed * Time.deltaTime;
-            newPos.y = Mathf.Clamp(newPos.y, house.position.y, roof.position.y);
+            newPos.y = Mathf.Clamp(newPos.y, dorm.position.y, roof.position.y);
             transform.position = newPos;
 
             prevMousePos = Input.mousePosition;

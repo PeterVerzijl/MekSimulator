@@ -11,6 +11,13 @@ public enum RoomType {
     Floor,
 }
 
+public enum SmallRoomType {
+    None,
+    Storage,
+    Toilet,
+    ServerRoom
+}
+
 [System.Serializable]
 public class Dorm {
     /// <summary>
@@ -23,17 +30,21 @@ public class Dorm {
     /// This contains a list of floors with each three room types.
     /// </summary>
     [SerializeField]
-    public List<RoomType[]> floors;
+    public List<Floor> floors = new List<Floor>();
 
     /// <summary>
     /// List of residents who live in the dorm.
     /// </summary>
     [SerializeField]
-    public List<Resident> residents;
+    public List<Resident> residents = new List<Resident>();
 
     public Dorm(string name) {
         this.name = name;
-        floors = new List<RoomType[]>();
-        residents = new List<Resident>();
     }
+}
+
+[System.Serializable]
+public class Floor {
+    public RoomType[] rooms = new RoomType[3];
+    public SmallRoomType sideRoom;
 }

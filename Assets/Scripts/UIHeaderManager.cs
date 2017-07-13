@@ -25,7 +25,7 @@ public class UIHeaderManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        dormNameText.text = GameManager.Instance.dorm.name;
+        dormNameText.text = GameManager.Instance.Dorm.name;
 	}
 	
 	// Update is called once per frame

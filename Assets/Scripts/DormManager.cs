@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HouseManager : MonoBehaviour {
-
-    public int rooms = 3;
-    public int floors { get { return Mathf.CeilToInt(rooms / 3.0f); } }
+public class DormManager : MonoBehaviour {
 
     public GameObject bedroomPrefab;
     public GameObject bathroomPrefab;
@@ -14,16 +11,29 @@ public class HouseManager : MonoBehaviour {
     public GameObject floorPrefab;
     public GameObject basePrefab;
 
+    Transform dormBase;
     Transform roof;
+
+    Dorm dorm { get { return GameManager.Instance.Dorm; } }
     
     List<Transform> floorTransforms = new List<Transform>();
 
 	// Use this for initialization
 	void Start () {
+        dormBase = transform.Find("house_base");
         roof = transform.Find("Roof");
-        roof.transform.position += Vector3.up * (2 * floors);
 
-        int roomsToActivate = rooms;
+        foreach (Floor floor in dorm.floors) {
+            Transform floorTransform = AddFloor();
+            int childIndex = 0;
+            foreach (Transform child in floorTransform) {
+                if (child.name.Contains("SlotPoint")) {
+                    AddRoom(child, floorTransform, floor.rooms[childIndex]);
+                    childIndex++;
+                }
+            }
+        }
+#if false
         NavNode curNode = GetComponentInChildren<NavigationNode>().Node;
 		for (int i = 0; i < floors; i++) {
             Transform floor = Instantiate(floorPrefab, transform).transform;
@@ -48,6 +58,7 @@ public class HouseManager : MonoBehaviour {
         // TODO: The roof should really be a place where characters 
         // should be able to go to kiss and enjoy the summer.
         curNode.AddNeighbour(roof.GetComponent<NavigationNode>().Node);
+#endif
 	}
 	
 	// Update is called once per frame
@@ -55,21 +66,41 @@ public class HouseManager : MonoBehaviour {
 		
 	}
 
-    public void AddFloor() {
-        Transform t = Instantiate(floorPrefab, this.transform).transform;
-        t.position = Vector3.zero + Vector3.up * (2 + 2 * floorTransforms.Count);
+    /// <summary>
+    /// Adds a floor at the top of the stack of floors, just below the roof.
+    /// This function also adds the floor to the floors array and 
+    /// reattaches the navigation nodes.
+    /// </summary>
+    /// <returns>A transform of the created floor object.</returns>
+    public Transform AddFloor() {
+        Transform result = Instantiate(floorPrefab, this.transform).transform;
+        result.position = Vector3.zero + Vector3.up * (2 + 2 * floorTransforms.Count);
         roof.transform.position += Vector3.up * 2;
         NavNode roofNode = roof.GetComponent<NavigationNode>().Node;
+
+        // Add to dorm
+        dorm.floors.Add(new Floor());
+
         // Now fix the node graphs
-        Transform prevFloor = floorTransforms[floorTransforms.Count - 1];
-        NavNode prevFloorNode = prevFloor.Find("Stairs").GetComponent<NavigationNode>().Node;
+        Transform prevFloor;
+        NavNode prevFloorNode;
+        if (floorTransforms.Count > 0) {
+            prevFloor = floorTransforms[floorTransforms.Count - 1];
+            prevFloorNode = prevFloor.Find("Stairs")
+                .GetComponent<NavigationNode>().Node;
+        } else {
+            prevFloor = dormBase;
+            prevFloorNode = dormBase.Find("Door").GetComponent<NavigationNode>().Node;
+        }
         prevFloorNode.RemoveNeighbour(roofNode);
-        NavNode floorNode = t.Find("Stairs").GetComponent<NavigationNode>().Node;
+        NavNode floorNode = result.Find("Stairs").GetComponent<NavigationNode>().Node;
         roofNode.neighbours.Clear();
         prevFloorNode.AddNeighbour(floorNode);
         floorNode.AddNeighbour(roofNode);
+        
         // Add our floor to our list of floors
-        floorTransforms.Add(t);
+        floorTransforms.Add(result);
+        return result;
     }
 
     public void StartSelectRoomTarget(RoomType type) {
@@ -103,6 +134,20 @@ public class HouseManager : MonoBehaviour {
                 goTransform = Instantiate(loundryroomPrefab, floor).transform;
             } break;
         }
+
+        // Find the slot index and floor index such that we can update the dorm obj.
+        int slotIndex = 0;
+        int floorIndex = floorTransforms.IndexOf(floor);
+        foreach(Transform child in floor) {
+            if (child.name.Contains("SlotPoint")) {
+                if (child == slot) {
+                    break;
+                }
+                slotIndex++;
+            }
+        }
+        dorm.floors[floorIndex].rooms[slotIndex] = type;
+
         goTransform.position = slot.position;
         NavNode navNode = floor.Find("Stairs")
             .GetComponent<NavigationNode>().Node;

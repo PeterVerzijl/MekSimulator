@@ -16,13 +16,12 @@ public class LevelLoader : MonoBehaviour {
     public Button nameSubmit;
 
     static Regex filenameRegex = new Regex(@"[^a-zA-Z0-9]");
-    static string levelFolder;
 
     Dorm[] dorms;
 
     // Use this for initialization
     void Start () {
-        levelFolder = Application.persistentDataPath + @"\dorms\";
+        string levelFolder = Application.persistentDataPath + @"/dorms/";
 
         // Load all dorm files
         if (!Directory.Exists(levelFolder)) {
@@ -53,7 +52,7 @@ public class LevelLoader : MonoBehaviour {
 	}
 
     public void LoadDorm(Dorm dorm) {
-        GameManager.Instance.dorm = dorm;
+        GameManager.Instance.Dorm = dorm;
         SceneManager.LoadScene("main", LoadSceneMode.Single);
     }
 
@@ -62,12 +61,11 @@ public class LevelLoader : MonoBehaviour {
     /// </summary>
     /// <param name="name">The name of the dorm.</param>
     /// <returns></returns>
-    public static Dorm LoadSavedDorm(string name) {
-        Dorm result = new Dorm("B. S. V. Moedt Ende Kraght");
-        RoomType[] floor1 = new RoomType[3];
-        floor1[0] = RoomType.Bedroom;
-        result.floors.Add(floor1);
-
+    public static Dorm LoadSavedDorm(string filename) {
+        if (!filename.Contains(".lvl")) { filename += ".lvl"; }
+        string fileContents = File.ReadAllText(
+            Application.persistentDataPath + @"/dorms/" + filename);
+        Dorm result = JsonUtility.FromJson<Dorm>(fileContents);
         return result;
     }
 
@@ -94,7 +92,8 @@ public class LevelLoader : MonoBehaviour {
     /// <param name="dorm">The dorm to save.</param>
     public static void SaveDorm(Dorm dorm) {
         string filename = filenameRegex.Replace(dorm.name, "");
-        string filePath = levelFolder + filename + ".lvl";
+        string filePath = Application.persistentDataPath + 
+            @"/dorms/" + filename + ".lvl";
         string serializedObject = JsonUtility.ToJson(dorm);
         if (File.Exists(filePath)) {
             File.WriteAllText(filePath, string.Empty);
@@ -112,7 +111,8 @@ public class LevelLoader : MonoBehaviour {
         Dorm result = new Dorm(name);
 
         string filename = filenameRegex.Replace(name, "");
-        string filePath = levelFolder + filename + ".lvl";
+        string filePath = Application.persistentDataPath + 
+            @"/dorms/" + filename + ".lvl";
         if (!File.Exists(filePath)) {
             SaveDorm(result);
         }

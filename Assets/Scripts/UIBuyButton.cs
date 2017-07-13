@@ -10,11 +10,13 @@ public class UIBuyButton : MonoBehaviour {
     public GameObject confirmLayout;
 
     public RoomType type;
-    public Button buildButton;
-    public HouseManager houseManager;
+    public DormManager houseManager;
 
     void Start() {
         SetActive(confirmActive);
+
+        Button buildButton = transform.Find("Buy Container/Button (Buy)")
+            .GetComponent<Button>();
 
         GetComponent<Button>().onClick.AddListener(()=> {
             SetActive(true);
