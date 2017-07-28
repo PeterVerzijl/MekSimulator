@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4384483708509756}
   - component: {fileID: 212233375703767192}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,9 +37,10 @@ GameObject:
   - component: {fileID: 4996912795229232}
   - component: {fileID: 70553312160535844}
   - component: {fileID: 114943145965252664}
-  m_Layer: 0
+  - component: {fileID: 50538042137265848}
+  m_Layer: 8
   m_Name: Resident
-  m_TagString: Untagged
+  m_TagString: Resident
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,7 +52,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1421481198545814}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4996912795229232}
@@ -64,13 +65,33 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1965983560170096}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.01, y: -0.91, z: 0.6113033}
+  m_LocalPosition: {x: 5.76, y: -0.96, z: 0.6113033}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 4384483708509756}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50538042137265848
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1965983560170096}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!70 &70553312160535844
 CapsuleCollider2D:
   m_ObjectHideFlags: 1
@@ -97,10 +118,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f225db7de3eadb429591b63a6870ada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resident: {fileID: 0}
+  resident:
+    name: 
+    sex: 0
+    happyness: 0
+    interrest: 
+    age: 0
+    stats:
+      intelligence: 0
+      social: 0
+      ego: 0
+      extrovert: 0
+      introvert: 0
+      venturousness: 0
+    floorIndex: 0
+    roomIndex: 0
   walkSpeed: 5
   target: {x: 0, y: 0, z: 0}
-  renderer: {fileID: 0}
+  maleSprite: {fileID: 21300000, guid: 7f3b50ac9cbbfc442b1a06988e81e331, type: 3}
+  femaleSprite: {fileID: 21300002, guid: 7f3b50ac9cbbfc442b1a06988e81e331, type: 3}
+  renderer: {fileID: 212233375703767192}
 --- !u!212 &212233375703767192
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -114,7 +151,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a92ebcf4673c4d647a8c771d4ea965bd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

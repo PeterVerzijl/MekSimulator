@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class DormManager : MonoBehaviour {
 
+    public Transform outside;
     public Transform dormBase;
     public Transform roof;
 
@@ -15,20 +16,54 @@ public class DormManager : MonoBehaviour {
     public GameObject loundryroomPrefab;
     public GameObject floorPrefab;
     public GameObject basePrefab;
+    [Space]
+    public GameObject residentPrefab;
 
     Dorm dorm { get { return GameManager.Instance.Dorm; } }
-    
+
+    FloorManager baseFloorManager;
     List<FloorManager> floorManagers = new List<FloorManager>();
 
 	// Use this for initialization
 	void Start () {
-        foreach (Floor floor in dorm.floors) {
+        baseFloorManager = dormBase.GetComponent<FloorManager>();
+
+        // Initialize floors
+        for(int floorIndex = 0; floorIndex < dorm.floors.Count; floorIndex++) {
+            Floor floor = dorm.floors[floorIndex];
             Transform floorTransform = InstantiateFloor();
             int childIndex = 0;
-            foreach (Transform slot in floorTransform.GetComponent<FloorManager>().roomSlots) {
-                InstantiateRoom(slot, floorTransform, floor.rooms[childIndex]);
+            FloorManager floorManager = floorTransform.GetComponent<FloorManager>();
+            for (int slotIndex = 0; slotIndex < floorManager.roomSlots.Length; slotIndex++) {
+                Transform roomT = InstantiateRoom(slotIndex, floorManager, 
+                                                  floor.rooms[childIndex]);
+                if (roomT != null) {
+                    RoomManager roomManager = roomT.GetComponent<RoomManager>();
+                    if (roomManager) {
+                        roomManager.floorIndex = floorIndex;
+                        roomManager.roomIndex = slotIndex;
+                        floorManager.roomManagers[slotIndex] = roomManager;
+                    }
+                }
                 childIndex++;
             }
+        }
+        // Initialize residents
+        foreach (Resident resident in dorm.residents) {
+            Transform residentObj = Instantiate(residentPrefab).transform;
+            Transform room = null;
+            if (resident.floorIndex >= 0) {
+                room = floorManagers[resident.floorIndex]
+                    .roomManagers[resident.roomIndex].transform;
+            } else if (resident.floorIndex == -1) {
+                room = baseFloorManager.roomManagers[resident.roomIndex].transform;
+            }
+            if (room != null) {
+                residentObj.position = room.position;
+            } else {
+                residentObj.position = outside.position;
+            }
+            residentObj.GetComponent<ResidentController>().resident = resident;
         }
 	}
 
@@ -36,6 +71,15 @@ public class DormManager : MonoBehaviour {
     void Update () {
 		
 	}
+
+    internal void InstantiateResident(Resident resident) {
+        GameObject residentObj = Instantiate(residentPrefab);
+        ResidentController controller = residentObj.GetComponent<ResidentController>();
+        controller.resident = resident;
+        controller.UpdateSex();
+
+        residentObj.transform.position = outside.position;
+    }
 
     /// <summary>
     /// Adds a floor at the top of the stack of floors, just below the roof.
@@ -106,30 +150,38 @@ public class DormManager : MonoBehaviour {
     /// <param name="slot">The slot where the room is build</param>
     /// <param name="floor">The foor on which the room is build</param>
     /// <param name="type">The type of room</param>
-    public void InstantiateRoom(Transform slot, Transform floor, RoomType type) {
-        Transform goTransform = null;
+    public Transform InstantiateRoom(int slotIndex, FloorManager floor, RoomType type) {
+        Transform resultRoom = null;
         switch (type) {
             case RoomType.Bedroom: {
-                goTransform = Instantiate(bedroomPrefab, floor).transform;
+                resultRoom = Instantiate(bedroomPrefab, floor.transform).transform;
             } break;
 
             case RoomType.Bathroom: {
-                goTransform = Instantiate(bathroomPrefab, floor).transform;
+                resultRoom = Instantiate(bathroomPrefab, floor.transform).transform;
             } break;
 
             case RoomType.Loundryroom: {
-                goTransform = Instantiate(loundryroomPrefab, floor).transform;
+                resultRoom = Instantiate(loundryroomPrefab, floor.transform).transform;
             } break;
 
-            case RoomType.None: return;
+            case RoomType.None: return null;
         }
 
-        goTransform.position = slot.position;
-        NavNode navNode = floor.Find("Stairs")
+        // Get the old slot, kill that, and set it to the spawned room.
+        Transform slot = floor.roomSlots[slotIndex];
+        floor.roomSlots[slotIndex] = resultRoom;
+        resultRoom.position = slot.position;
+
+        // Setup navigation
+        NavNode navNode = floor.transform.Find("Stairs")
             .GetComponent<NavigationNode>().Node;
         navNode.AddNeighbour(
-            goTransform.GetComponent<NavigationNode>().Node);
+            resultRoom.GetComponent<NavigationNode>().Node);
+
         Destroy(slot.gameObject);
+
+        return resultRoom;
     }
 
     /// <summary>
@@ -142,8 +194,6 @@ public class DormManager : MonoBehaviour {
     public void AddRoom(int roomIndex, Transform slot, FloorManager floor) {
         int floorIndex = floorManagers.IndexOf(floor);
         dorm.floors[floorIndex].rooms[roomIndex] = lastSelectedRoomType;
-        InstantiateRoom(slot, floor.transform, lastSelectedRoomType);
+        InstantiateRoom(roomIndex, floor, lastSelectedRoomType);
     }
-
-
 }

@@ -61,7 +61,6 @@ public class NavManager : MonoBehaviour {
         }
 
         // Back trace
-        int a = 0;
         NavNode key = goal;
         NavNode value;
         while (key != null && cameFrom.TryGetValue(key, out value)) {

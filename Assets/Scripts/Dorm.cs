@@ -20,6 +20,8 @@ public enum SmallRoomType {
 
 [System.Serializable]
 public class Dorm {
+    public long lastSimulationTick;
+
     /// <summary>
     /// Dorm name
     /// </summary>

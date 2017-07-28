@@ -9,6 +9,7 @@ public class FloorManager : MonoBehaviour {
 
     public Transform[] roomSlots = new Transform[3];
     private Button[] roomSlotButtons = new Button[3];
+    public RoomManager[] roomManagers = new RoomManager[3];
 
     public Transform smallRoomSlot;
 
@@ -16,8 +17,8 @@ public class FloorManager : MonoBehaviour {
         DormManager dormManager = FindObjectOfType<DormManager>();
         for (int slotIndex = 0; slotIndex < roomSlots.Length; slotIndex++) {
             Transform slot = roomSlots[slotIndex];
-            // Why?! Unity WHY?! Why the hell would GetComponentInChildren not look 
-            // through inactive children and do you ask me to do this bullshit?!
+            // NOTE(Unity): Why?! Unity WHY?! Why the hell would GetComponentInChildren 
+            // not look through inactive children and do you ask me to do this bullshit?!
             Button slotButton = slot.GetChild(0).GetChild(0).GetComponent<Button>();
             roomSlotButtons[slotIndex] = slotButton;     
             

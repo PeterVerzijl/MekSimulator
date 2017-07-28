@@ -41,9 +41,11 @@ GameObject:
   - component: {fileID: 212836729684441040}
   - component: {fileID: 61570486361736784}
   - component: {fileID: 114482832544834454}
-  m_Layer: 0
+  - component: {fileID: 50456806173936626}
+  - component: {fileID: 114920401905850064}
+  m_Layer: 9
   m_Name: Bedroom
-  m_TagString: Untagged
+  m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55,7 +57,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1935119021205124}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.2968535, y: 3.1983805, z: 0}
+  m_LocalPosition: {x: -6.230353, y: 0.4357916, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4671229881596024}
@@ -75,6 +77,26 @@ Transform:
   m_Father: {fileID: 4608681178022858}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50456806173936626
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1935119021205124}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &61447993462604200
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -112,7 +134,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.87}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -167,6 +189,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   childNodes:
   - {fileID: 4671229881596024}
+--- !u!114 &114920401905850064
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1935119021205124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13d0b06fc3782fe49bb5c20a6933797a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lights: 0
+  floorIndex: 0
+  roomIndex: 0
+  residentEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: ResidentEnterEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!212 &212597545046589132
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -180,7 +221,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a92ebcf4673c4d647a8c771d4ea965bd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -221,7 +262,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a92ebcf4673c4d647a8c771d4ea965bd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

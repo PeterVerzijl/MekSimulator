@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a83c591ccda393642ba4faeb4e5ecbdf, type: 3}
+  m_Name: PubNight
+  m_EditorClassIdentifier: 
+  header: Pub Night
+  icon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  description: It's pub time! The night is youngh and so are we, time to decrease
+    our brain capacity by drinking lots of *hick*.
+  changingAtributes:
+  - type: 1
+    hoursToChange: 8
+    changeAmount: 1
+  - type: 5
+    hoursToChange: 8
+    changeAmount: 1
+  - type: 0
+    hoursToChange: 4
+    changeAmount: -1

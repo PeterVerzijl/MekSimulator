@@ -78,6 +78,7 @@ public class LevelLoader : MonoBehaviour {
         string fileContents = File.ReadAllText(
             Application.persistentDataPath + @"/dorms/" + filename);
         Dorm result = JsonUtility.FromJson<Dorm>(fileContents);
+        
         return result;
     }
 
@@ -106,12 +107,17 @@ public class LevelLoader : MonoBehaviour {
         string filename = filenameRegex.Replace(dorm.name, "");
         string filePath = Application.persistentDataPath + 
             @"/dorms/" + filename + ".lvl";
+        
         string serializedObject = JsonUtility.ToJson(dorm);
+        OutputString(serializedObject, filePath);
+    }
+
+    private static void OutputString(string data, string filePath) {
         if (File.Exists(filePath)) {
             File.WriteAllText(filePath, string.Empty);
         }
         StreamWriter outputFile = new StreamWriter(filePath);
-        outputFile.Write(serializedObject);
+        outputFile.Write(data);
         outputFile.Close();
     }
 
