@@ -20,6 +20,7 @@ public class CameraDragging : MonoBehaviour {
     Collider2D draggableResidentCollider;
     Transform draggingResident;
 
+    public ResidentPanelController residentPanel;
 
     LayerMask residentMask;
     Vector3 prevMousePos;
@@ -27,6 +28,9 @@ public class CameraDragging : MonoBehaviour {
     DormManager dormManager;
 
     Collider2D closestRoomCollider = null;
+
+    // Touch related stuff
+    bool hasTouchMoved = false;
 
 	// Use this for initialization
 	void Start () {
@@ -38,63 +42,98 @@ public class CameraDragging : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        bool onUI = EventSystem.current.IsPointerOverGameObject();
+        bool onGUI = EventSystem.current.IsPointerOverGameObject();
 
-        if (!onUI && Input.GetMouseButtonDown(0)) {
-            isPanning = false;
-            // Check for resident below cursor
-            Vector2 mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D[] hits = Physics2D.RaycastAll(mousePoint, Vector2.zero, 0, residentMask);
-            if (hits.Length > 0) {
-                draggingResident = hits[0].transform;
-                draggableResident = Instantiate(draggableCharacterPrefab);
-                draggableResidentCollider = draggableResident.GetComponent<BoxCollider2D>();
-                roomSelectionIndicator = Instantiate(roomSelectionIndicatorPrefab)
-                    .GetComponent<SpriteRenderer>();
-            } else {
-                prevMousePos = Input.mousePosition;
-                isPanning = true;
-            }
-        }
-        if (!onUI && Input.GetMouseButtonUp(0) && draggableResident) {
-            // Now check for target room
-
-            NavigationNode navNode = closestRoomCollider.GetComponent<NavigationNode>();
-            NavNode targetNode = navNode.Node;
-                
-            // Set target
-            draggingResident.GetComponent<ResidentController>().SetTarget(targetNode);
+        if (!onGUI && Input.touchCount == 1) {
+            Touch touch = Input.GetTouch(0);
             
-            Destroy(draggableResident.gameObject);
-            draggingResident = null;
-            draggableResident = null;
-            Destroy(roomSelectionIndicator.gameObject);
-        }
-        if (!onUI && Input.GetMouseButton(0)) {
-            if (isPanning) {
-                // Check if we are not pressing on something else
-                Vector3 mouseDelta = Input.mousePosition - prevMousePos;
-                Vector3 newPos = transform.position + Vector3.up * -mouseDelta.y * 
-                    scrollSpeed * Time.deltaTime;
-                newPos.y = Mathf.Clamp(newPos.y, dorm.position.y, roof.position.y);
-                transform.position = newPos;
+            switch (touch.phase) {
+                case TouchPhase.Began: {
+                    hasTouchMoved = false;
+                    isPanning = false;
+                } break;
 
-                prevMousePos = Input.mousePosition;
-            } else if (draggingResident != null) {
-                Vector2 mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                draggableResident.transform.position = mousePoint - 0.5f * Vector2.up;
+                case TouchPhase.Moved: {
+                    if (hasTouchMoved == false) {
+                        Transform residentTransform;
+                        if (IsResidentBelowTouch(out residentTransform)) {
+                            draggingResident = residentTransform;
+                            draggableResident = Instantiate(draggableCharacterPrefab);
+                            draggableResidentCollider = draggableResident.GetComponent<BoxCollider2D>();
+                            roomSelectionIndicator = Instantiate(roomSelectionIndicatorPrefab)
+                                .GetComponent<SpriteRenderer>();
+                        } else {
+                            prevMousePos = Input.mousePosition;
+                            isPanning = true;
+                        }
+                    }
+                    hasTouchMoved = true;
+                    // Do dragging stuff here
 
-                // Get closest room collider
-                Collider2D newClosestRoomCollider = GetClosestRoomCollider(draggableResidentCollider);
-                if (newClosestRoomCollider != null && newClosestRoomCollider != closestRoomCollider) {
-                    closestRoomCollider = newClosestRoomCollider;
-                    Vector3 colliderBoundsSize = closestRoomCollider.bounds.size;
-                    roomSelectionIndicator.size = colliderBoundsSize * 1.1f;
-                    roomSelectionIndicator.transform.position = 
-                        closestRoomCollider.transform.position
-                        + Vector3.up * closestRoomCollider.bounds.size.y/2;
-                }
+                    if (!onGUI && isPanning) {
+                        // Check if we are not pressing on something else
+                        Vector3 mouseDelta = Input.mousePosition - prevMousePos;
+                        Vector3 newPos = transform.position + Vector3.up * -mouseDelta.y * 
+                            scrollSpeed * Time.deltaTime;
+                        newPos.y = Mathf.Clamp(newPos.y, dorm.position.y, roof.position.y);
+                        transform.position = newPos;
+
+                        prevMousePos = Input.mousePosition;
+                    } else if (draggingResident != null) {
+                        Vector2 mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        draggableResident.transform.position = mousePoint - 0.5f * Vector2.up;
+
+                        // Get closest room collider
+                        Collider2D newClosestRoomCollider = GetClosestRoomCollider(draggableResidentCollider);
+                        if (newClosestRoomCollider != null && newClosestRoomCollider != closestRoomCollider) {
+                            closestRoomCollider = newClosestRoomCollider;
+                            Vector3 colliderBoundsSize = closestRoomCollider.bounds.size;
+                            roomSelectionIndicator.size = colliderBoundsSize * 1.1f;
+                            roomSelectionIndicator.transform.position = 
+                                closestRoomCollider.transform.position
+                                + Vector3.up * closestRoomCollider.bounds.size.y/2;
+                        }
+                    }
+                } break;
+
+                case TouchPhase.Ended: {
+                    if (!hasTouchMoved) {
+                        Transform residentTransform;
+                        if (IsResidentBelowTouch(out residentTransform)) {
+                            ResidentController residentController = 
+                                residentTransform.GetComponent<ResidentController>();
+                            if (residentController != null) {
+                                residentPanel.gameObject.SetActive(true);
+                                residentPanel.UpdateResident(residentController.resident);
+                            }
+                        }
+                    }
+                    if (draggableResident) {
+                        // Now check for target room
+
+                        NavigationNode navNode = closestRoomCollider.GetComponent<NavigationNode>();
+                        NavNode targetNode = navNode.Node;
+                
+                        // Set target
+                        draggingResident.GetComponent<ResidentController>().SetTarget(targetNode);
+            
+                        Destroy(draggableResident.gameObject);
+                        draggingResident = null;
+                        draggableResident = null;
+                        Destroy(roomSelectionIndicator.gameObject);
+                    }
+                } break;
             }
+        } 
+
+        if (!onGUI && Input.GetMouseButtonDown(0)) {
+            
+        }
+        if (!onGUI && Input.GetMouseButtonUp(0) && draggableResident) {
+            
+        }
+        if (!onGUI && Input.GetMouseButton(0)) {
+            
         }
 	}
 
@@ -123,5 +162,18 @@ public class CameraDragging : MonoBehaviour {
             result = contacts[0];
         }
         return result;
+    }
+
+    private bool IsResidentBelowTouch(out Transform resident) {
+        bool foundResident = false;
+        resident = null;
+
+        Vector2 mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(mousePoint, Vector2.zero, 0, residentMask);
+        if(hits.Length > 0) {
+            resident = hits[0].transform;
+            foundResident = true;
+        }
+        return foundResident;
     }
 }

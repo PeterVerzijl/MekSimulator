@@ -9,7 +9,7 @@ public class ResidentEnterEvent : UnityEvent<Resident> { }
 public class RoomManager : MonoBehaviour {
 
     public bool lights = false;
-    private new SpriteRenderer renderer;
+    new SpriteRenderer renderer;
 
     public int floorIndex;
     public int roomIndex;
@@ -38,10 +38,13 @@ public class RoomManager : MonoBehaviour {
     public void SwitchLights(bool turnOn) {
         lights = turnOn;
         float darkning = (lights)? 1.0f : 0.5f;
+        if (renderer == null) print("Error:  no renderer on room " + gameObject.name);
         renderer.color = new Color(darkning, darkning, darkning, 1.0f);
     }
 
     public void AddResident(ResidentController controller) {
+        // TODO(Peter): If a room has more than one activity, make sure you show the
+        // activity choser. But if just one activity is available, chose that one!
         if (activity) {
             controller.SetActivity(activity);
         }

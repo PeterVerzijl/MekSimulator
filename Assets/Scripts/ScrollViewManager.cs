@@ -7,10 +7,10 @@ public class ScrollViewManager : MonoBehaviour {
 
     public GameObject activityPanelPrefab;
     public RectTransform container;
+    public Activity[] activities;
 
 	// Use this for initialization
 	void Start () {
-		Activity[] activities = Resources.LoadAll<Activity>("Activities");
         foreach(Activity activity in activities) {
             Transform panel = Instantiate(activityPanelPrefab, container).transform;
             panel.Find("Name Text").GetComponent<Text>().text = activity.header;
